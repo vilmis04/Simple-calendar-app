@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+header {
+    max-width: 90%;
+    margin: 0 auto;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+main,
+.calendar-view,
+.create-view {
+    padding: 1rem;
+}
+
+main {
+    display: flex;
+    height: 90%;
+    flex-wrap: wrap;
+}
+
+.calendar-view {
+    flex: 2;
+    /* border: solid 1px black; */
+}
+
+.create-view {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 32rem;
+    /* max-width: 32rem; */
+    transition: 1s;
+}
+
+form {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+    width: 30rem;
+    transition: 1s;
+}
+
+input,
+select,
+option {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+}
+
+
+.hide-btn {
+    align-self: flex-end;
+
+    background: white;
+    height: 2rem;
+    width: 2rem;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.line1,
+.line2 {
+    width: 2px;
+    height: 100%;
+    background: black;
+}
+
+.line1 {
+    transform: rotate(45deg) translateX(2px);
+}
+
+.line2 {
+    transform: rotate(-45deg) translateX(-1px);
+}
+
+.hidden {
+    width: 0;
+    opacity: 0;
+    transition: 1s;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.rotated {
+    transform: rotate(-45deg);
+    transition: 0.5s;
+
+}
+
+.calendar-layout {
+    padding-top: 3rem;
+}
+
+.calendar-view .heading,
+.calendar-layout {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1rem;
+}
+
+.heading div {
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+.empty-day,
+.day {
+    min-height: 75px;
+    max-height: 150px;
+}
+
+.day {
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 5px;
+}

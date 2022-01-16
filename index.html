@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js"></script>
+</head>
+<body>
+    <header>
+        <h1>
+            Calendar App
+        </h1>
+        <div class="hide-btn rotated">
+            <div class="line1"></div>
+            <div class="line2"></div>
+        </div>
+    </header>
+    <main>
+        <div class="calendar-view">
+            <div class="heading">
+                <div>Monday</div>
+                <div>Tuesday</div>
+                <div>Wednesday</div>
+                <div>Thursday</div>
+                <div>Friday</div>
+                <div>Saturday</div>
+                <div>Sunday</div>
+            </div>
+            <div class="calendar-layout">
+
+            </div>
+        </div>
+        <div class="create-view hidden">
+            <form>
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" required
+                    placeholder="Enter the title of the event" maxlength="50">
+
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+
+                <label for="start-time">Start time</label>
+                <input type="time" id="start-time" name="start-time" required>
+
+                <label for="end-time">End time</label>
+                <input type="time" id="end-time" name="end-time" required>
+
+                <label for="type">Event type</label>
+                <select name="type" id="type" required>
+                    <option value="meeting">Meeting</option>
+                    <option value="call">Call</option>
+                    <option value="out-of-office">Out of office</option>
+                </select>
+
+                <label for="description">Description <em>(optional)</em> </label>
+                <input type="text" id="description" name="description" 
+                    placeholder="Enter a description of the event">
+
+                <input type="submit" value="Create an event" id="submit" >
+                <input type="reset" value="Cancel" id="cancel">
+            </form>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
