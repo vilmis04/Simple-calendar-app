@@ -34,7 +34,8 @@ main {
     /* border: solid 1px black; */
 }
 
-.create-view {
+.create-view,
+.detail-view {
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -43,7 +44,8 @@ main {
     transition: 1s;
 }
 
-form {
+form,
+.detail-container {
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -54,7 +56,8 @@ form {
 
 input,
 select,
-option {
+option,
+button {
     margin: 0.5rem 0;
     padding: 0.5rem;
     font-size: 1.25rem;
@@ -79,8 +82,8 @@ option {
 .line1,
 .line2 {
     width: 2px;
-    height: 100%;
-    background: black;
+    height: 60%;
+    background: white;
 }
 
 .line1 {
@@ -132,4 +135,31 @@ option {
     border: 1px solid black;
     padding: 1rem;
     border-radius: 5px;
+}
+
+.add-item-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background: black;
+    cursor: pointer;
+    user-select: none;
+}
+
+.add-item-text {
+    font-size: 1.25rem;
+    margin-left: 0.5rem;
+    color: white;
+}
+
+.hide-btn {
+    background: black;
+}
+
+.detail-label {
+    font-size: 1rem;
+    font-style: italic;
+    margin: 1rem 0 0.5rem;
 }

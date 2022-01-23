@@ -5,8 +5,18 @@ window.addEventListener("DOMContentLoaded", ()=>{
     const form = document.querySelector("form");
     const endTimeInput = document.querySelector("#end-time");
     const startTimeInput = document.querySelector("#start-time");
-    const hideBtn = document.querySelector(".hide-btn");
+    const hideBtn = document.querySelector(".add-item-wrapper");
     const calendarLayout = document.querySelector(".calendar-layout");
+    const detailView = document.querySelector(".detail-view");
+    const createView = document.querySelector(".create-view");
+    const closeBtn = document.querySelector("#close");
+    const deleteBtn = document.querySelector("#delete");
+    const cancelBtn = document.querySelector("#cancel");
+
+    // Variable definitions
+
+        let itemToDelete = null;
+        let eventToRemove = null;
 
     // Class definitions
 
@@ -23,14 +33,14 @@ window.addEventListener("DOMContentLoaded", ()=>{
         }
     }
 
-    // Variable definitions
-
-
     // Event listeners
 
+    cancelBtn.addEventListener("click", ()=> {
+        createView.classList.add("hidden");
+    });
+
     hideBtn.addEventListener("click", ()=>{
-        document.querySelector(".create-view").classList.toggle("hidden");
-        hideBtn.classList.toggle("rotated");
+        createView.classList.remove("hidden");
     });
 
     endTimeInput.addEventListener("change", ()=>{
@@ -45,18 +55,34 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
     form.addEventListener("submit", (e)=>{
         e.preventDefault();
+        createView.classList.add("hidden");
         const events = getDataFromStorage();
 
         const newEvent = new Event(form.elements);
+        newEvent.id = Object.values(newEvent).join("_");
         form.reset();
 
         events.push(newEvent);
         updateDataInStorage(events);
         loadAndDisplayEventsFromStorage();
 
-        console.log(events);
+        // console.log(events);
 
     });
+
+    closeBtn.addEventListener("click", () => {
+        detailView.classList.add("hidden");
+    });
+
+    deleteBtn.addEventListener("click", () => {
+        const events = getDataFromStorage();
+
+        itemToDelete.remove();
+        const filteredEvent = events.filter(item => item.id === eventToRemove);
+        events.splice(events.indexOf(filteredEvent[0]),1);
+        updateDataInStorage(events);
+        detailView.classList.add("hidden");
+    })
 
     // Main logic
 
@@ -69,9 +95,45 @@ window.addEventListener("DOMContentLoaded", ()=>{
     // Function definitions
 
     function loadAndDisplayEventsFromStorage() {
-        // console.log(calendarLayout.children);
+        const daysArr = [...calendarLayout.children];
+        const events = getDataFromStorage();
 
-        calendarLayout.children.forEach()
+        daysArr.forEach(day => {
+            const fullDate = day.dataset.fullDate;
+            const eventsThisDay = events.filter(event => event.eventDate === fullDate);
+            if (eventsThisDay.length > 0) displayEvents(day, eventsThisDay);
+        });
+    }
+
+    function displayEvents(day, eventsThisDay) {
+        const dayArr = [...day.children];
+        eventsThisDay.forEach(event => {
+            if (dayArr.filter(item => item.dataset.id === event.id).length == 0) {
+                const newEvent = document.createElement("div");
+                newEvent.dataset.id = event.id;
+                newEvent.textContent = event.title;
+                newEvent.style.background = `${event.color}`;
+                newEvent.addEventListener("click", (clickEvent) => {
+                    openDetailView(clickEvent, event);
+                });
+                day.append(newEvent);
+            }
+            
+        });
+    }
+
+    function openDetailView(clickEvent, event) {
+        itemToDelete = clickEvent.target;
+        eventToRemove = event.id;
+        detailView.classList.remove("hidden");
+        document.querySelector("#detail-title").textContent = event.title;
+        document.querySelector("#detail-date").textContent = event.eventDate;
+        document.querySelector("#detail-start-time").textContent = event.startTime;
+        document.querySelector("#detail-end-time").textContent = event.endTime;
+        document.querySelector("#detail-type").textContent = event.eventType;
+        const description = event.description? event.description : "N/A";
+        document.querySelector("#detail-description").textContent = description;
+
     }
 
     function generateCalenderView() {
@@ -88,7 +150,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
         for (let i=0; i<currentMonthProps.daysInMonth; i++) {
             const day = document.createElement("div");
             const dayNum = document.createElement("div");
-            const eventList = document.createElement("div");
             day.classList.add("day");
 
             dayNum.textContent = i+1;
@@ -98,7 +159,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
             day.dataset.fullDate = currentMonthProps.yearAndMonthStr+daysDate;
             day.setAttribute("data-value","".concat(i+1));
-            day.append(dayNum, eventList);
+            day.append(dayNum);
             calendarLayout.append(day);
         }
 
