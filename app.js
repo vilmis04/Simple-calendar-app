@@ -17,6 +17,16 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
         let itemToDelete = null;
         let eventToRemove = null;
+        const preloadStorageJan = [
+            {"title":"My call","startTime":"19:28","endTime":"22:28","eventDate":"2022-01-13","eventType":"call","description":"Call to my friend","color":"orange","id":"My call_19:28_22:28_2022-01-13_call_Call to my friend_orange"},
+            {"title":"Doctor visit","startTime":"09:30","endTime":"10:30","eventDate":"2022-01-13","eventType":"out-of-office","description":"","color":"magenta","id":"Doctor visit_09:30_10:30_2022-01-13_out-of-office__magenta"},
+            {"title":"Business strategy review","startTime":"09:30","endTime":"12:00","eventDate":"2022-01-24","eventType":"meeting","description":"Review status of the strategy execution","color":"lightblue","id":"Business strategy review_09:30_12:00_2022-01-24_meeting_Review status of the strategy execution_lightblue"}
+        ];
+        const preloadStorageFeb = [
+            {"title":"My call","startTime":"19:28","endTime":"22:28","eventDate":"2022-02-13","eventType":"call","description":"Call to my friend","color":"orange","id":"My call_19:28_22:28_2022-02-13_call_Call to my friend_orange"},
+            {"title":"Doctor visit","startTime":"09:30","endTime":"10:30","eventDate":"2022-02-13","eventType":"out-of-office","description":"","color":"magenta","id":"Doctor visit_09:30_10:30_2022-02-13_out-of-office__magenta"},
+            {"title":"Business strategy review","startTime":"09:30","endTime":"12:00","eventDate":"2022-02-24","eventType":"meeting","description":"Review status of the strategy execution","color":"lightblue","id":"Business strategy review_09:30_12:00_2022-02-24_meeting_Review status of the strategy execution_lightblue"}
+        ];
 
     // Class definitions
 
@@ -44,7 +54,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
     });
 
     endTimeInput.addEventListener("change", ()=>{
-        console.log("change event fired");
         if (startTimeInput.value) {
             endTimeInput.min = startTimeInput.value;
             startTimeInput.max = endTimeInput.value;
@@ -54,7 +63,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
     });
 
     startTimeInput.addEventListener("change", ()=>{
-        console.log("change event fired");
         if (endTimeInput.value) {
             startTimeInput.max = endTimeInput.value;
             endTimeInput.min = startTimeInput.value;
@@ -77,7 +85,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
         updateDataInStorage(events);
         loadAndDisplayEventsFromStorage();
 
-        // console.log(events);
 
     });
 
@@ -113,7 +120,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
         buttonContainer.append(confirmBtn, declineBtn);
         popup.append(popupText, buttonContainer);
-        // document.querySelector("body").append(popup);
         detailView.append(popup);
     }
 
@@ -224,7 +230,8 @@ window.addEventListener("DOMContentLoaded", ()=>{
     function getDataFromStorage() {
         let events = JSON.parse(sessionStorage.getItem("eventList"));
         if (!events) {
-            events = [];
+            const today = new Date;
+            events = today.getMonth() == 0? preloadStorageJan : preloadStorageFeb;
             sessionStorage.setItem("eventList", JSON.stringify(events));
         }
         return events;
