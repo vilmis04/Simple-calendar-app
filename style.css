@@ -163,3 +163,55 @@ button {
     font-style: italic;
     margin: 1rem 0 0.5rem;
 }
+
+.detail-view {
+    position: relative;
+}
+
+.pop-up {
+    padding: 2rem 2rem 1rem;
+    font-size: 1.25rem;
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%,-50%);
+    border: 1px solid black;
+    border-radius: 5px;
+    background: white;
+}
+
+.pop-btn {
+    font-size: 1rem;
+    width: 45%;
+    background: white;
+    cursor: pointer;
+}
+
+.popup-btn-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.confirm {
+    border: solid green 2px;
+    border-radius: 10px;
+    color: green;
+}
+.confirm:hover {
+    border: solid green 2px;
+    border-radius: 10px;
+    color: white;
+    background: green;
+}
+.decline {
+    border: solid red 2px;
+    border-radius: 10px;
+    color: red;
+}
+.decline:hover {
+    border: solid red 2px;
+    border-radius: 10px;
+    color: white;
+    background: red;
+}

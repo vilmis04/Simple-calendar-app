@@ -85,15 +85,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
         detailView.classList.add("hidden");
     });
 
-    deleteBtn.addEventListener("click", () => {
-        const events = getDataFromStorage();
-
-        itemToDelete.remove();
-        const filteredEvent = events.filter(item => item.id === eventToRemove);
-        events.splice(events.indexOf(filteredEvent[0]),1);
-        updateDataInStorage(events);
-        detailView.classList.add("hidden");
-    })
+    deleteBtn.addEventListener("click", displayDeletePrompt);
 
     // Main logic
 
@@ -104,6 +96,43 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
 
     // Function definitions
+
+    function displayDeletePrompt() {
+        const popup = createElementWithClass("div", ["pop-up"]);
+        const popupText = createElementWithClass("div", ["pop-up-text"]);
+        popupText.textContent = "Do you want to delete this event?"
+        const buttonContainer = createElementWithClass("div", ["popup-btn-container"]);
+        const confirmBtn = createElementWithClass("button", ["confirm", "pop-btn"]);
+        confirmBtn.textContent = "Confirm";
+        const declineBtn = createElementWithClass("button", ["decline", "pop-btn"]);
+        declineBtn.textContent = "Cancel";
+
+        
+        confirmBtn.addEventListener("click", () => {deleteEvent(popup)}); 
+        declineBtn.addEventListener("click", () => {popup.remove()}); 
+
+        buttonContainer.append(confirmBtn, declineBtn);
+        popup.append(popupText, buttonContainer);
+        // document.querySelector("body").append(popup);
+        detailView.append(popup);
+    }
+
+    function deleteEvent(popup) {
+        const events = getDataFromStorage();
+        itemToDelete.remove();
+        const filteredEvent = events.filter(item => item.id === eventToRemove);
+        events.splice(events.indexOf(filteredEvent[0]),1);
+        updateDataInStorage(events);
+        detailView.classList.add("hidden");
+        popup.remove();
+    }
+
+    function createElementWithClass (tag, classArr) {
+        const element = document.createElement(tag);
+        classArr.forEach(item => {element.classList.add(item)});
+
+        return element;
+    }
 
     function loadAndDisplayEventsFromStorage() {
         const daysArr = [...calendarLayout.children];
