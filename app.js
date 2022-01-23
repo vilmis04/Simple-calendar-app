@@ -47,8 +47,19 @@ window.addEventListener("DOMContentLoaded", ()=>{
         console.log("change event fired");
         if (startTimeInput.value) {
             endTimeInput.min = startTimeInput.value;
+            startTimeInput.max = endTimeInput.value;
         } else {
             startTimeInput.max = endTimeInput.value;
+        }
+    });
+
+    startTimeInput.addEventListener("change", ()=>{
+        console.log("change event fired");
+        if (endTimeInput.value) {
+            startTimeInput.max = endTimeInput.value;
+            endTimeInput.min = startTimeInput.value;
+        } else {
+            endTimeInput.min = startTimeInput.value;
         }
     });
     
