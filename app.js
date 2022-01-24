@@ -9,6 +9,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
     const calendarLayout = document.querySelector(".calendar-layout");
     const detailView = document.querySelector(".detail-view");
     const createView = document.querySelector(".create-view");
+    const calendarView = document.querySelector(".calendar-view");
     const closeBtn = document.querySelector("#close");
     const deleteBtn = document.querySelector("#delete");
     const cancelBtn = document.querySelector("#cancel");
@@ -46,6 +47,15 @@ window.addEventListener("DOMContentLoaded", ()=>{
     }
 
     // Event listeners
+
+    calendarView.addEventListener("click", (event)=> {
+        const targetClass = [...event.target.classList].filter(name => name === "day");
+        if (targetClass.length === 0 && !event.target.dataset.id) {
+            form.reset();
+            detailView.classList.add("hidden");
+            createView.classList.add("hidden");
+        };
+    });
 
     navBtns.forEach(btn => btn.addEventListener("click", (event)=> {
         const direction = event.target.classList.value;
