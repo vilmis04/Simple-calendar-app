@@ -12,11 +12,13 @@ window.addEventListener("DOMContentLoaded", ()=>{
     const closeBtn = document.querySelector("#close");
     const deleteBtn = document.querySelector("#delete");
     const cancelBtn = document.querySelector("#cancel");
+    const navBtns = document.querySelectorAll(".nav-container button");
 
     // Variable definitions
 
         let itemToDelete = null;
         let eventToRemove = null;
+        const monthToDisplay = {};
         const preloadStorageJan = [
             {"title":"My call","startTime":"19:28","endTime":"22:28","eventDate":"2022-01-13","eventType":"call","description":"Call to my friend","color":"orange","id":"My call_19:28_22:28_2022-01-13_call_Call to my friend_orange"},
             {"title":"Doctor visit","startTime":"09:30","endTime":"10:30","eventDate":"2022-01-13","eventType":"out-of-office","description":"","color":"magenta","id":"Doctor visit_09:30_10:30_2022-01-13_out-of-office__magenta"},
@@ -44,6 +46,22 @@ window.addEventListener("DOMContentLoaded", ()=>{
     }
 
     // Event listeners
+
+    navBtns.forEach(btn => btn.addEventListener("click", (event)=> {
+        const direction = event.target.classList.value;
+        direction === "nav-next" ? monthToDisplay.month++ : monthToDisplay.month--;
+        if (monthToDisplay.month === 12) {
+            monthToDisplay.year++;
+            monthToDisplay.month = 0;
+        } else if (monthToDisplay.month === -1) {
+            monthToDisplay.year--;
+            monthToDisplay.month = 11;
+        }
+        while (calendarLayout.firstChild) calendarLayout.firstChild.remove();
+        getCurrentDate(new Date(monthToDisplay.year, monthToDisplay.month, 1));
+        generateCalenderView();
+        loadAndDisplayEventsFromStorage();
+    }));
 
     cancelBtn.addEventListener("click", ()=> {
         createView.classList.add("hidden");
@@ -183,6 +201,9 @@ window.addEventListener("DOMContentLoaded", ()=>{
     }
 
     function generateCalenderView() {
+        if (Object.keys(monthToDisplay).length == 0) getCurrentDate();
+        const nav = document.querySelector(".nav-date");
+        nav.textContent = `${monthToDisplay.year} ${monthToDisplay.monthStr}`;
         const currentMonthProps = getMonthData();
 
         const firstWeekday = currentMonthProps.firstWeekday;
@@ -203,7 +224,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
             let daysDate = (i+1).toString();
             if (daysDate.length == 1) daysDate = "0".concat(daysDate); 
 
-            day.dataset.fullDate = currentMonthProps.yearAndMonthStr+daysDate;
+            day.dataset.fullDate = `${currentMonthProps.yearAndMonthStr}-${daysDate}`;
             day.setAttribute("data-value","".concat(i+1));
             day.append(dayNum);
             calendarLayout.append(day);
@@ -211,9 +232,17 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
     }
 
+    function getCurrentDate(date = new Date) {
+        const currentDate = date;
+        monthToDisplay.monthStr = currentDate.toLocaleString('en-us', { month: 'long' });
+        monthToDisplay.year = currentDate.getFullYear();
+        monthToDisplay.month = currentDate.getMonth();
+    }
+
     function getMonthData() {
+        let currentDate = new Date(monthToDisplay.year, monthToDisplay.month, 1);
+
         const monthData = {};
-        const currentDate = new Date;
         const currentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth()+1, 0);
         const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
         
@@ -222,7 +251,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
         monthData.daysInMonth = currentMonth.getDate();
         monthData.firstWeekday = firstDay.getDay();
-        monthData.yearAndMonthStr = `${currentDate.getFullYear()}-${monthString}-`
+        monthData.yearAndMonthStr = `${currentDate.getFullYear()}-${monthString}`;
 
         return monthData;
     }
@@ -231,7 +260,8 @@ window.addEventListener("DOMContentLoaded", ()=>{
         let events = JSON.parse(sessionStorage.getItem("eventList"));
         if (!events) {
             const today = new Date;
-            events = today.getMonth() == 0? preloadStorageJan : preloadStorageFeb;
+            // events = today.getMonth() == 0? preloadStorageJan : preloadStorageFeb;
+            events = preloadStorageJan.concat(preloadStorageFeb);
             sessionStorage.setItem("eventList", JSON.stringify(events));
         }
         return events;

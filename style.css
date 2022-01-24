@@ -215,3 +215,25 @@ button {
     color: white;
     background: red;
 }
+
+.nav-container {
+    display: flex;
+    align-items: center;
+}
+
+.nav-date {
+    margin: 0 1rem;
+}
+
+.nav-prev,
+.nav-next {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.nav-prev:hover,
+.nav-next:hover {
+    transform: scale(1.1);
+}
+
