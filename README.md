@@ -1,16 +1,6 @@
 # Simple-calendar-app
 
-This is a simple calendar app to store events. 
-
-## Table of contents
-
-- [Overview](#overview)
-  - [The features](#the-features)
-  - [Screenshot](#screenshot)
-  - [Links](#links)
-- [My process](#my-process)
-  - [Built with](#built-with)
-- [Author](#author)
+This is a simple calendar app to store events (currently saved in session storage).
 
 ## Overview
 
