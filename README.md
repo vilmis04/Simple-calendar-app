@@ -16,6 +16,10 @@ This is a simple calendar app to store events (currently saved in session storag
 
 ### Screenshot
 
+1. Calendar view
+2. Calendar and create event view
+3. Calendar and detalis view with delete confirmation
+
 ![Picture](./Screenshot.jpg)
 
 ### Links
